@@ -10,8 +10,6 @@ appauthor = "Hayden Schiff"
 
 # based on https://stackoverflow.com/a/16696317
 def download_file(url, filename, checksum=None):
-    local_filename = url.split('/')[-1]
-
     sha1 = None
     if (checksum != None):
         sha1 = hashlib.sha1()
@@ -64,6 +62,8 @@ def get_release(token, build, distro, plexpass=True):
 
 config = get_config()
 rel = get_release(config["token"], config["build"], config["distro"], config["enablePlexpass"])
+if (rel == None):
+    raise Exception("No releases could be found for build '%s' and distro '%s'" % (config["build"], config["distro"]))
 
 url = rel["url"]
 filename = url.split('/')[-1]
